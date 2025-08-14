@@ -74,4 +74,3 @@ class LidarImuDataQueue {
 } // namespace
 
 #endif // LIVOX_ROS_DRIVER_LIDAR_IMU_DATA_QUEUE_H_
-

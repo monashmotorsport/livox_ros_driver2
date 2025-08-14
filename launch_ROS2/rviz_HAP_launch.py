@@ -8,7 +8,7 @@ import launch
 xfer_format   = 0    # 0-Pointcloud2(PointXYZRTL), 1-customized pointcloud format
 multi_topic   = 0    # 0-All LiDARs share the same topic, 1-One LiDAR one topic
 data_src      = 0    # 0-lidar, others-Invalid data src
-publish_freq  = 10.0 # freqency of publish, 5.0, 10.0, 20.0, 50.0, etc.
+publish_freq  = 20.0 # freqency of publish, 5.0, 10.0, 20.0, 50.0, etc.
 output_type   = 0
 frame_id      = 'livox_frame'
 lvx_file_path = '/home/livox/livox_test.lvx'
@@ -35,8 +35,8 @@ livox_ros2_params = [
 
 def generate_launch_description():
     livox_driver = Node(
-        package='livox_ros_driver2',
-        executable='livox_ros_driver2_node',
+        package='livox_driver',
+        executable='livox_driver_node',
         name='livox_lidar_publisher',
         output='screen',
         parameters=livox_ros2_params
@@ -49,9 +49,20 @@ def generate_launch_description():
             arguments=['--display-config', rviz_config_path]
         )
 
+    livox_dedistortion = Node(
+            package='livox_dedistortion_pkg"',
+            executable='livox_dedistortion_pkg"',
+            output='screen',
+            arguments=['--display-config', rviz_config_path]
+        )
+
+
+
     return LaunchDescription([
         livox_driver,
         livox_rviz,
+        #livox_repub,
+        livox_dedistortion,
         # launch.actions.RegisterEventHandler(
         #     event_handler=launch.event_handlers.OnProcessExit(
         #         target_action=livox_rviz,

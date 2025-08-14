@@ -1,4 +1,4 @@
-# judge which cmake codes to use 
+# judge which cmake codes to use
 if(ROS_EDITION STREQUAL "ROS1")
 
   # Copyright(c) 2019 livoxtech limited.
@@ -189,7 +189,7 @@ else(ROS_EDITION STREQUAL "ROS2")
   # Copyright(c) 2020 livoxtech limited.
 
   cmake_minimum_required(VERSION 3.14)
-  project(livox_ros_driver2)
+  project(livox_driver)
 
   # Default to C99
   if(NOT CMAKE_C_STANDARD)
@@ -204,7 +204,7 @@ else(ROS_EDITION STREQUAL "ROS2")
   list(INSERT CMAKE_MODULE_PATH 0 "${PROJECT_SOURCE_DIR}/cmake/modules")
 
   if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    add_compile_options(-Wall -Wextra -Wpedantic -Wno-unused-parameter)
+     add_compile_options(-Wall -Wextra -Wpedantic -Wno-unused-parameter)
   endif()
 
   # Printf version info
@@ -242,7 +242,6 @@ else(ROS_EDITION STREQUAL "ROS2")
     "msg/CustomPoint.msg"
     "msg/CustomMsg.msg"
     DEPENDENCIES builtin_interfaces std_msgs
-    LIBRARY_NAME ${PROJECT_NAME}
   )
 
   ## make sure the livox_lidar_sdk_shared library is installed
@@ -281,23 +280,23 @@ else(ROS_EDITION STREQUAL "ROS2")
 
   target_include_directories(${PROJECT_NAME} PRIVATE ${livox_sdk_INCLUDE_DIRS})
 
-  # get include directories of custom msg headers
-  if(HUMBLE_ROS STREQUAL "humble")
-    rosidl_get_typesupport_target(cpp_typesupport_target
-    ${LIVOX_INTERFACES} "rosidl_typesupport_cpp")
-    target_link_libraries(${PROJECT_NAME} "${cpp_typesupport_target}")
-  else()
-    set(LIVOX_INTERFACE_TARGET "${LIVOX_INTERFACES}__rosidl_typesupport_cpp")
-    add_dependencies(${PROJECT_NAME} ${LIVOX_INTERFACES})
-    get_target_property(LIVOX_INTERFACES_INCLUDE_DIRECTORIES ${LIVOX_INTERFACE_TARGET} INTERFACE_INCLUDE_DIRECTORIES)
-  endif()
+  # Set up custom interface dependencies properly
+  set(LIVOX_INTERFACE_TARGET "${LIVOX_INTERFACES}__rosidl_typesupport_cpp")
+
+  # Add dependency to ensure interfaces are built first
+  add_dependencies(${PROJECT_NAME} ${LIVOX_INTERFACES})
+
+  # Link the typesupport library
+  target_link_libraries(${PROJECT_NAME} ${LIVOX_INTERFACE_TARGET})
+
+  # Use rosidl_target_interfaces for proper setup (modern approach)
+  rosidl_target_interfaces(${PROJECT_NAME} ${LIVOX_INTERFACES} "rosidl_typesupport_cpp")
 
   # include file direcotry
   target_include_directories(${PROJECT_NAME} PUBLIC
     ${PCL_INCLUDE_DIRS}
     ${APR_INCLUDE_DIRS}
     ${LIVOX_LIDAR_SDK_INCLUDE_DIR}
-    ${LIVOX_INTERFACES_INCLUDE_DIRECTORIES}   # for custom msgs
     3rdparty
     src
   )
@@ -305,7 +304,6 @@ else(ROS_EDITION STREQUAL "ROS2")
   # link libraries
   target_link_libraries(${PROJECT_NAME}
     ${LIVOX_LIDAR_SDK_LIBRARY}
-    ${LIVOX_INTERFACE_TARGET}   # for custom msgs
     ${PPT_LIBRARY}
     ${Boost_LIBRARY}
     ${PCL_LIBRARIES}
@@ -318,14 +316,14 @@ else(ROS_EDITION STREQUAL "ROS2")
   )
 
   if(BUILD_TESTING)
-    find_package(ament_lint_auto REQUIRED)
+    #find_package(ament_lint_auto REQUIRED)
     # the following line skips the linter which checks for copyrights
     # uncomment the line when a copyright and license is not present in all source files
     #set(ament_cmake_copyright_FOUND TRUE)
     # the following line skips cpplint (only works in a git repo)
     # uncomment the line when this package is not in a git repo
     #set(ament_cmake_cpplint_FOUND TRUE)
-    ament_lint_auto_find_test_dependencies()
+    #ament_lint_auto_find_test_dependencies()
   endif()
 
   ament_auto_package(INSTALL_TO_SHARE

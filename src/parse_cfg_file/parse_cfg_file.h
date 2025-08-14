@@ -36,15 +36,16 @@
 
 namespace livox_ros {
 
-class ParseCfgFile {
- public:
-  explicit ParseCfgFile(const std::string& path);
-  ~ParseCfgFile() {}
+class ParseCfgFile
+{
+public:
+    explicit ParseCfgFile(const std::string &path);
+    ~ParseCfgFile() {}
 
-  bool ParseSummaryInfo(LidarSummaryInfo& lidar_summary_info);
-  
- private:
-  const std::string path_;
+    bool ParseSummaryInfo(LidarSummaryInfo &lidar_summary_info);
+
+private:
+    const std::string path_;
 };
 
 } // namespace livox_ros
