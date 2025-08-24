@@ -208,7 +208,7 @@ else(ROS_EDITION STREQUAL "ROS2")
   endif()
 
   # Printf version info
-  project(${PROJECT_NAME} VERSION "IDK" LANGUAGES CXX)
+  project(${PROJECT_NAME} VERSION 0.0.0 LANGUAGES CXX)
   message(STATUS "${PROJECT_NAME} version: ${LIVOX_ROS_DRIVER2_VERSION}")
 
   #---------------------------------------------------------------------------------------
