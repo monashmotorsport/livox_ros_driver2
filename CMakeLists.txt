@@ -208,9 +208,9 @@ else(ROS_EDITION STREQUAL "ROS2")
   endif()
 
   # Printf version info
-  #include(cmake/version.cmake)
-  #project(${PROJECT_NAME} VERSION ${LIVOX_ROS_DRIVER2_VERSION} LANGUAGES CXX)
-  #message(STATUS "${PROJECT_NAME} version: ${LIVOX_ROS_DRIVER2_VERSION}")
+  include(cmake/version.cmake)
+  project(${PROJECT_NAME} VERSION ${LIVOX_ROS_DRIVER2_VERSION} LANGUAGES CXX)
+  message(STATUS "${PROJECT_NAME} version: ${LIVOX_ROS_DRIVER2_VERSION}")
 
   #---------------------------------------------------------------------------------------
   # Add ROS Version MACRO
@@ -226,7 +226,7 @@ else(ROS_EDITION STREQUAL "ROS2")
   find_package(PCL REQUIRED)
   find_package(std_msgs REQUIRED)
   find_package(builtin_interfaces REQUIRED)
-  # find_package(rosidl_default_generators REQUIRED)
+  find_package(rosidl_default_generators REQUIRED)
 
   # check apr
   find_package(PkgConfig)
@@ -292,7 +292,7 @@ else(ROS_EDITION STREQUAL "ROS2")
   # Use rosidl_target_interfaces for proper setup (modern approach)
   #rosidl_target_interfaces(${PROJECT_NAME} ${LIVOX_INTERFACES} "rosidl_typesupport_cpp")
   rosidl_get_typesupport_target(cpp_typesupport_target "${PROJECT_NAME}" "rosidl_typesupport_cpp")
-  target_link_libraries(${PROJECT_NAME} "${cpp_typesupport_target}")
+  target_link_libraries(${PROJECT_NAME}_node "${cpp_typesupport_target}")
   # include file direcotry
   target_include_directories(${PROJECT_NAME} PUBLIC
     ${PCL_INCLUDE_DIRS}
