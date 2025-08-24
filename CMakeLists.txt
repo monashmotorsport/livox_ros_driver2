@@ -208,7 +208,8 @@ else(ROS_EDITION STREQUAL "ROS2")
   endif()
 
   # Printf version info
-  project(${PROJECT_NAME} VERSION 0.0.0 LANGUAGES CXX)
+  include(cmake/version.cmake)
+  project(${PROJECT_NAME} VERSION ${LIVOX_ROS_DRIVER2_VERSION} LANGUAGES CXX)
   message(STATUS "${PROJECT_NAME} version: ${LIVOX_ROS_DRIVER2_VERSION}")
 
   #---------------------------------------------------------------------------------------
@@ -289,8 +290,8 @@ else(ROS_EDITION STREQUAL "ROS2")
   target_link_libraries(${PROJECT_NAME} ${LIVOX_INTERFACE_TARGET})
 
   # Use rosidl_target_interfaces for proper setup (modern approach)
-  #rosidl_target_interfaces(${PROJECT_NAME} ${LIVOX_INTERFACES} "rosidl_typesupport_cpp")
-  rosidl_get_typesupport_target(cpp_typesupport_target "${PROJECT_NAME}" "rosidl_typesupport_cpp")
+  rosidl_target_interfaces(${PROJECT_NAME} ${LIVOX_INTERFACES} "rosidl_typesupport_cpp")
+
   # include file direcotry
   target_include_directories(${PROJECT_NAME} PUBLIC
     ${PCL_INCLUDE_DIRS}
@@ -307,7 +308,6 @@ else(ROS_EDITION STREQUAL "ROS2")
     ${Boost_LIBRARY}
     ${PCL_LIBRARIES}
     ${APR_LIBRARIES}
-    ${cpp_typesupport_target}
   )
 
   rclcpp_components_register_node(${PROJECT_NAME}
