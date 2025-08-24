@@ -208,9 +208,9 @@ else(ROS_EDITION STREQUAL "ROS2")
   endif()
 
   # Printf version info
-  include(cmake/version.cmake)
-  project(${PROJECT_NAME} VERSION ${LIVOX_ROS_DRIVER2_VERSION} LANGUAGES CXX)
-  message(STATUS "${PROJECT_NAME} version: ${LIVOX_ROS_DRIVER2_VERSION}")
+  #include(cmake/version.cmake)
+  #project(${PROJECT_NAME} VERSION ${LIVOX_ROS_DRIVER2_VERSION} LANGUAGES CXX)
+  #message(STATUS "${PROJECT_NAME} version: ${LIVOX_ROS_DRIVER2_VERSION}")
 
   #---------------------------------------------------------------------------------------
   # Add ROS Version MACRO
