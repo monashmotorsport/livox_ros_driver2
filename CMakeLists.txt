@@ -290,8 +290,9 @@ else(ROS_EDITION STREQUAL "ROS2")
   target_link_libraries(${PROJECT_NAME} ${LIVOX_INTERFACE_TARGET})
 
   # Use rosidl_target_interfaces for proper setup (modern approach)
-  rosidl_target_interfaces(${PROJECT_NAME} ${LIVOX_INTERFACES} "rosidl_typesupport_cpp")
-
+  #rosidl_target_interfaces(${PROJECT_NAME} ${LIVOX_INTERFACES} "rosidl_typesupport_cpp")
+  rosidl_get_typesupport_target(cpp_typesupport_target "${PROJECT_NAME}" "rosidl_typesupport_cpp")
+  target_link_libraries(${PROJECT_NAME}_node "${cpp_typesupport_target}")
   # include file direcotry
   target_include_directories(${PROJECT_NAME} PUBLIC
     ${PCL_INCLUDE_DIRS}
