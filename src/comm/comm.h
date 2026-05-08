@@ -45,7 +45,7 @@ const uint8_t kMaxSourceLidar = 32;
 
 /** Eth packet relative info parama */
 const uint32_t kMaxPointPerEthPacket  = 100;
-const uint32_t kMinEthPacketQueueSize = 32;     /**< must be 2^n */
+const uint32_t kMinEthPacketQueueSize = 16;     /**< must be 2^n */
 const uint32_t kMaxEthPacketQueueSize = 131072; /**< must be 2^n */
 const uint32_t kImuEthPacketQueueSize = 256;
 
